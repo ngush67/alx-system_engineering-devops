@@ -1,2 +1,2 @@
 #!/bin/bash
-find 0x00-shell_basics -name "*.html" -newer "$(dirname "$(pwd)")" -exec cp -n {} alx-system_engineering-devops \;
+find 0x00-shell_basics -name "*.html" -newer "$(dirname "$(pwd)")" -exec cp -n {} alx-system_engineering-devops\
