@@ -6,8 +6,8 @@ Basics of networking: OSI Model , LAN, WLAN, Internet, IP addresses (IPv4, IPv6)
 5. Bash script to ping an IP address passed as argument 5 times
 
 ### Environment
-*. Language: Bash scripts (#4-5)
-*. OS: Ubuntu 14.04 LTS
+* Language: Bash scripts (#4-5)
+* OS: Ubuntu 14.04 LTS
 
 #### Authors 
 Ngsuh 
