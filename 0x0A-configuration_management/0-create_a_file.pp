@@ -1,7 +1,7 @@
 # Using puppet, create a file with below specifications
 i
 file {'/tmp/school':
-  ensure  => file,
+  ensure  => 'file',
   path    => '/tmp/school',
   mode    => '0744',
   owner   => 'www-data',
