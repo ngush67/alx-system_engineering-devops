@@ -1,16 +1,25 @@
-#config server
+# Script to install nginx using puppet
 
-package { 'nginx':
-provider => 'apt',
+package {'nginx':
+  ensure => 'present',
 }
-exec {'hlbtn_page':
-command => '/usr/bin/sudo /bin/echo Holberton School > /var/www/html/index.nginx-debian.html',
-}
-exec {'redirect_page':
 
-command => '/usr/bin/sudo /bin/sed -i "66i rewrite ^/redirect_me https://www.youtube.com/ permanent;" /etc/nginx/sites-available/default',
-}
-exec {'start_server':
+exec {'install':
+  command  => 'sudo apt-get update ; sudo apt-get -y install nginx',
+  provider => shell,
 
-command => '/usr/bin/sudo /usr/sbin/service nginx start',
+}
+
+exec {'Hello':
+  command  => 'echo "Hello World!" | sudo tee /var/www/html/index.html',
+  provider => shell,
+}
+
+exec {'sudo sed -i "s/listen 80 default_server;/listen 80 default_server;\\n\\tlocation \/redirect_me {\\n\\t\\treturn 301 https:\/\/oluwaseundasilva.hashnode.dev\/;\\n\\t}/" /etc/nginx/sites-available/default':
+  provider => shell,
+}
+
+exec {'run':
+  command  => 'sudo service nginx restart',
+  provider => shell,
 }
