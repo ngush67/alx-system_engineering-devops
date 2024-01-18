@@ -1,27 +1,24 @@
 #!/usr/bin/python3
-"""
-Function that queries the Reddit API and returns
-the number of subscribers for a given subreddit.
-"""
+""" calls the Reddit API and prints the titles of the first 10 hot posts """
 import requests
-import sys
+def top_ten(subreddit):
+    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
+    headers = {"User-Agent": "linux:1:v1.1 (by /u/heimer_r)"}
+    params = {"limit": 10}
+    
+    try:
+        response = requests.get(url, headers=headers, params=params, allow_redirects=False)
+        response.raise_for_status()  # Raise an exception for unsuccessful responses
+        data = response.json().get("data", {}).get("children", [])
+        
+        if not data:
+            print("None")
+        else:
+            hot_titles = [post.get("data", {}).get("title") for post in data]
+            print(*hot_titles, sep='\n')
 
+    except requests.exceptions.RequestException as e:
+        print("None")
 
-def number_of_subscribers(subreddit):
-    """ Queries to Reddit API """
-    u_agent = 'Mozilla/5.0'
-
-    headers = {
-        'User-Agent': u_agent
-    }
-
-    url = "https://www.reddit.com/r/{}/about.json".format(subreddit)
-    res = requests.get(url, headers=headers, allow_redirects=False)
-    if res.status_code != 200:
-        return 0
-    dic = res.json()
-    if 'data' not in dic:
-        return 0
-    if 'subscribers' not in dic.get('data'):
-        return 0
-    return res.json()['data']['subscribers']
+# Example usage
+top_ten('python')
