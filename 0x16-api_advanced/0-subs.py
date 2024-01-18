@@ -1,24 +1,16 @@
 #!/usr/bin/python3
-""" calls the Reddit API and prints the titles of the first 10 hot posts """
+# queries the Reddit API and returns the number of subscribers
 import requests
-def top_ten(subreddit):
-    url = f"https://www.reddit.com/r/{subreddit}/hot.json"
-    headers = {"User-Agent": "linux:1:v1.1 (by /u/heimer_r)"}
-    params = {"limit": 10}
-    
+
+
+def number_of_subscribers(subreddit):
+    """return total subscribers of reddit's subreddit"""
+
+    url = 'https://www.reddit.com/r/' + subreddit + '/about.json'
     try:
-        response = requests.get(url, headers=headers, params=params, allow_redirects=False)
-        response.raise_for_status()  # Raise an exception for unsuccessful responses
-        data = response.json().get("data", {}).get("children", [])
-        
-        if not data:
-            print("None")
-        else:
-            hot_titles = [post.get("data", {}).get("title") for post in data]
-            print(*hot_titles, sep='\n')
-
-    except requests.exceptions.RequestException as e:
-        print("None")
-
-# Example usage
-top_ten('python')
+        response = requests.get(url,
+                                headers={'User-agent': 'your bot 0.1'},
+                                allow_redirects=False).json()
+        return response['data'].get('subscribers')
+    except:
+        return 0
