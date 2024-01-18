@@ -1,24 +1,19 @@
 #!/usr/bin/python3
-"""
-Get the number of subscribers for a given subreddit
-"""
-import requests
 
-URL = 'https://www.reddit.com/r/{}/about.json'
-USER_AGENT = 'Mozilla/5.0 (Linux x86_64; rv:47.0) Gecko/20100101 Firefox/47.0'
+"""Reddit Api calls module"""
+
+import requests
 
 
 def number_of_subscribers(subreddit):
-    """
-    Query reddit for the number of subscribers to a subreddit
-    """
-    resp = requests.get(
-        URL.format(subreddit),
-        headers={'User-Agent': USER_AGENT},
-        allow_redirects=False,
-        timeout=10
-    )
-    if resp.status_code == 200:
-        return resp.json()['data']['subscribers']
-    else:
+    """Get total number of subscribers of a subreddit"""
+
+    headers = {'User-Agent': 'python3:holberton.task:v1.0 (by /u/sebas119_)'}
+    response = requests.get(
+        'https://www.reddit.com/r/{}/about.json'.format(subreddit),
+        headers=headers, allow_redirects=False)
+
+    if response.status_code != 200:
         return 0
+
+    return response.json().get('data').get('subscribers')
